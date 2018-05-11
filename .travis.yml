@@ -1,0 +1,23 @@
+sudo: required
+services:
+- docker
+language: bash
+script:
+- docker-compose up
+after_success:
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker push sofwerx/tor:arm-static
+- cp outputs/tor tor-arm-static-${TRAVIS_TAG}
+branches:
+  only:
+  - master
+  - "/^v\\d.*$/"
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key: "${GITHUB_TOKEN}"
+  file:
+  - tor-${TRAVIS_TAG}
+  on:
+    tags: true
+    repo: "${TRAVIS_REPO_SLUG}"
