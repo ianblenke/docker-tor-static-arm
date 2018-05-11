@@ -1,4 +1,4 @@
-version: "3.2"
+version: "2.1"
 
 services:
   # Enable docker to auto-run any architecture image using qemu
@@ -8,12 +8,12 @@ services:
     image: multiarch/qemu-user-static:register
     privileged: true
     restart: "no"
-    deploy:
-      mode: global
 
   tor:
     build: .
     image: sofwerx/tor-static-arm
     volumes:
       - ./outputs/:/outputs/
-    command: cp -r install/tor /outputs/ 
+    depends_on:
+      - multiarch
+    command: cp -r install/bin/tor /outputs/ 
