@@ -11,7 +11,7 @@ services:
 
   tor:
     build: .
-    image: sofwerx/tor-static-arm
+    image: sofwerx/tor:arm-static
     volumes:
       - ./outputs/:/outputs/
     depends_on:
